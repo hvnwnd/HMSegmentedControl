@@ -248,6 +248,11 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlImagePosition) {
 @property (nonatomic, readwrite) UIEdgeInsets enlargeEdgeInset;
 
 /**
+    Section with red badge
+ */
+@property (nonatomic, strong) NSArray *highlightedSegmentIndexes;
+
+/**
  Default is YES. Set to NO to disable animation during user selection.
  */
 @property (nonatomic) BOOL shouldAnimateUserSelection;
@@ -258,5 +263,9 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlImagePosition) {
 - (void)setSelectedSegmentIndex:(NSUInteger)index animated:(BOOL)animated;
 - (void)setIndexChangeBlock:(IndexChangeBlock)indexChangeBlock;
 - (void)setTitleFormatter:(HMTitleFormatterBlock)titleFormatter;
+
+// Customised part
+- (void)resetHighlight;
+- (void)highlightIndexes:(NSArray*)indexes;
 
 @end

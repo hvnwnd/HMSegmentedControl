@@ -395,6 +395,31 @@
             }
         
             [self addBackgroundAndBorderLayerWithRect:fullRect];
+            
+            CGFloat imageWidth = 6;
+            CGFloat imageHeight = 6;
+            CGFloat y2 = ((CGRectGetHeight(self.frame) - self.selectionIndicatorHeight) / 2) + (self.selectionIndicatorHeight - imageHeight / 2) - 10;
+            CGFloat x2 = self.segmentWidth * idx + (self.segmentWidth - imageWidth)/2.0f + stringWidth/2 + 4;
+
+            CALayer *imageLayer = [CALayer layer];
+            
+            if (idx < self.highlightedSegmentIndexes.count) {
+                BOOL hightlight = [self.highlightedSegmentIndexes[idx] boolValue];
+                if (hightlight) {
+                    imageLayer.backgroundColor = [UIColor colorWithRed:235/255.f green:11/255.f blue:156/255.f alpha:1.f].CGColor;
+                } else {
+                    imageLayer.backgroundColor = [UIColor clearColor].CGColor;
+                }
+            } else {
+                imageLayer.backgroundColor = [UIColor clearColor].CGColor;
+            }
+                        
+            CGRect rect2 = CGRectMake((int)x2, y2, imageWidth, imageWidth);
+            imageLayer.frame = rect2;
+            imageLayer.cornerRadius = rect2.size.width/2;
+
+            [self.scrollView.layer addSublayer:imageLayer];
+
         }];
     } else if (self.type == HMSegmentedControlTypeImages) {
         [self.sectionImages enumerateObjectsUsingBlock:^(id iconImage, NSUInteger idx, BOOL *stop) {
@@ -1116,6 +1141,18 @@
 
 - (id)accessibilityElementAtIndex:(NSInteger)index {
     return [[self accessibilityElements] objectAtIndex:index];
+}
+
+- (void)resetHighlight
+{
+    self.highlightedSegmentIndexes = nil;
+    [self setNeedsDisplay];
+}
+
+- (void)highlightIndexes:(NSArray*)indexes
+{
+    self.highlightedSegmentIndexes = indexes;
+    [self setNeedsDisplay];
 }
 
 @end
